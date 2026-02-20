@@ -114,7 +114,7 @@ function Dashboard({ user }) {
     <div style={{ minHeight:'100vh', background:'#f0f8ff', display:'flex', fontFamily:"'Segoe UI', sans-serif" }}>
       <div style={{ width:menuAbierto?'220px':'64px', background:'#ffffff', borderRight:'1px solid #bfdbfe', display:'flex', flexDirection:'column', transition:'width 0.3s ease', boxShadow:'2px 0 12px rgba(30,144,255,0.08)', flexShrink:0 }}>
         <div style={{ padding:menuAbierto?'20px 16px':'20px 10px', borderBottom:'1px solid #bfdbfe', display:'flex', alignItems:'center', justifyContent:'space-between', minHeight:'80px' }}>
-          {menuAbierto ? <img src="/logo.jpg" alt="Briseo" style={{ height:'48px', width:'auto', objectFit:'contain' }} />
+          {menuAbierto ? <img src="/logo.jpg" alt="Briseo" style={{ height:'72px', width:'auto', objectFit:'contain' }} />
             : <div style={{ width:'38px', height:'38px', borderRadius:'10px', background:'linear-gradient(135deg, #1e90ff, #0ea5e9)', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontWeight:'900', fontSize:'18px' }}>b</div>}
           <button onClick={() => setMenuAbierto(!menuAbierto)} style={{ background:'#e0f0ff', border:'none', borderRadius:'8px', color:'#1e90ff', cursor:'pointer', width:'26px', height:'26px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'11px', flexShrink:0 }}>{menuAbierto?'◀':'▶'}</button>
         </div>
