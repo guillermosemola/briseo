@@ -12,6 +12,7 @@ import Costos from './pages/Costos.jsx'
 import Sueldos from './pages/Sueldos.jsx'
 import Proveedores from './pages/Proveedores.jsx'
 import Reportes from './pages/Reportes.jsx'
+import Usuarios from './pages/Usuarios.jsx'
 
 const menuItems = [
   { id: 'inicio',       icon: '🏠', label: 'Inicio' },
@@ -27,6 +28,7 @@ const menuItems = [
   { id: 'sueldos',      icon: '💼', label: 'Sueldos' },
   { id: 'proveedores',  icon: '🏭', label: 'Proveedores' },
   { id: 'reportes',     icon: '📈', label: 'Reportes' },
+  { id: 'usuarios',     icon: '👤', label: 'Usuarios' },
 ]
 
 const appCards = [
@@ -241,6 +243,7 @@ function Dashboard({ user }) {
           {seccionActiva === 'sueldos' && <Sueldos />}
           {seccionActiva === 'proveedores' && <Proveedores />}
           {seccionActiva === 'reportes' && <Reportes />}
+          {seccionActiva === 'usuarios' && <Usuarios />}
         </div>
       </div>
     </div>
