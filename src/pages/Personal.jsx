@@ -28,10 +28,12 @@ function Personal() {
   async function guardarEmpleado(e) {
     e.preventDefault()
     const { error } = await supabase.from('empleados').insert([{
-      ...form,
-      salario_base: form.salario_base ? parseFloat(form.salario_base) : null,
-      costo_hora: form.costo_hora ? parseFloat(form.costo_hora) : null,
-    }])
+  ...form,
+  fecha_nacimiento: form.fecha_nacimiento || null,
+  fecha_ingreso: form.fecha_ingreso || null,
+  salario_base: form.salario_base ? parseFloat(form.salario_base) : null,
+  costo_hora: form.costo_hora ? parseFloat(form.costo_hora) : null,
+}])
     if (error) { alert('Error: ' + error.message); return }
     setMostrarForm(false)
     setForm({ nombre: '', apellido: '', dni: '', cuil: '', fecha_nacimiento: '', fecha_ingreso: '', puesto: '', salario_base: '', costo_hora: '', email: '', telefono: '', direccion: '', tipo_contrato: 'relacion_dependencia', observaciones: '' })
