@@ -410,14 +410,14 @@
   <div class="hero-line"></div>
   <div class="hero-content">
     <div>
-      <div class="hero-label">Tucumán, Argentina</div>
-      <h1>Servicios integrales de <em>higiene y mantenimiento</em> profesional</h1>
-      <p class="hero-desc">Combinamos personal capacitado, procesos estandarizados y productos certificados para garantizar ambientes saludables, seguros y con imagen corporativa impecable.</p>
-      <div class="hero-btns">
+      <div class="hero-label" style="opacity:1;transform:none">Tucumán, Argentina</div>
+      <h1 style="opacity:1;transform:none">Servicios integrales de <em>higiene y mantenimiento</em> profesional</h1>
+      <p class="hero-desc" style="opacity:1;transform:none">Combinamos personal capacitado, procesos estandarizados y productos certificados para garantizar ambientes saludables, seguros y con imagen corporativa impecable.</p>
+      <div class="hero-btns" style="opacity:1;transform:none">
         <a href="#contacto" class="btn-primary">Solicitar cotización</a>
         <a href="#servicios" class="btn-ghost">Ver servicios</a>
       </div>
-      <div class="hero-numbers">
+      <div class="hero-numbers" style="opacity:1;transform:none">
         <div class="hero-num"><strong>8+</strong><span>Referencias verificadas</span></div>
         <div class="hero-num"><strong>100%</strong><span>Cargas sociales</span></div>
         <div class="hero-num"><strong>SMT</strong><span>Base operativa</span></div>
@@ -719,5 +719,5 @@
   // Scroll animations
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis') })
-  }, { threshold: 0.1 })
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' })
   document.querySelectorAll('.fi').for
