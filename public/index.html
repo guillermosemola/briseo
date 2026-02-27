@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Briseo Limpieza — Servicios Integrales de Higiene Profesional</title>
+  <meta name="description" content="Empresa especializada en servicios integrales de higiene, desinfección y mantenimiento en Tucumán. Personal capacitado, procesos estandarizados." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #005baa;
+      --azul-claro: #0077cc;
+      --azul-oscuro: #003d73;
+      --negro: #0d1117;
+      --gris-oscuro: #1e2530;
+      --gris: #5a6472;
+      --gris-claro: #f2f4f7;
+      --blanco: #ffffff;
+      --acento: #00a8e8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; color: var(--negro); overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(13,17,23,0.96); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 60px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img { height: 44px; }
+    .nav-logo span { color: white; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 600; text-decoration: none; letter-spacing: 0.5px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--azul-claro); color: white !important;
+      padding: 10px 24px; border-radius: 4px; transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--azul) !important; color: white !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; position: relative; overflow: hidden;
+      display: flex; align-items: center;
+      background: var(--negro);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(120deg, #0d1117 40%, #0a1628 100%);
+    }
+    .hero-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-accent {
+      position: absolute; top: 0; right: 0;
+      width: 55%; height: 100%;
+      background: linear-gradient(135deg, transparent 30%, rgba(0,91,170,0.15) 100%);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .hero-line {
+      position: absolute; left: 60px; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, transparent, var(--azul-claro), transparent);
+      opacity: 0.3;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto; padding: 120px 60px 80px;
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 100px; align-items: center;
+    }
+    .hero-label {
+      color: var(--acento); font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
+    }
+    .hero-label::before { content: ''; width: 40px; height: 2px; background: var(--acento); }
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(38px, 4.5vw, 62px);
+      font-weight: 800; line-height: 1.1;
+      color: white; margin-bottom: 28px; letter-spacing: -1px;
+    }
+    h1 em { font-style: normal; color: var(--acento); }
+    .hero-desc { color: rgba(255,255,255,0.55); font-size: 16px; line-height: 1.8; margin-bottom: 44px; font-weight: 300; max-width: 480px; }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 60px; }
+    .btn-primary {
+      background: var(--azul-claro); color: white;
+      padding: 15px 36px; border-radius: 4px;
+      text-decoration: none; font-size: 13px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: all 0.25s; display: inline-block;
+      box-shadow: 0 4px 20px rgba(0,119,204,0.35);
+    }
+    .btn-primary:hover { background: var(--azul); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,119,204,0.45); }
+    .btn-ghost {
+      background: transparent; color: rgba(255,255,255,0.7);
+      padding: 15px 36px; border-radius: 4px;
+      text-decoration: none; font-size: 13px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: all 0.25s; display: inline-block;
+      border: 1.5px solid rgba(255,255,255,0.2);
+    }
+    .btn-ghost:hover { border-color: white; color: white; }
+    .hero-numbers { display: flex; gap: 40px; }
+    .hero-num { border-left: 2px solid var(--azul-claro); padding-left: 20px; }
+    .hero-num strong { display: block; font-size: 36px; font-weight: 800; color: white; line-height: 1; }
+    .hero-num span { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; display: block; }
+
+    .hero-card-wrap { position: relative; }
+    .hero-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px; padding: 36px; backdrop-filter: blur(10px);
+    }
+    .hero-card-title { color: rgba(255,255,255,0.4); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+    .servicios-list { list-style: none; }
+    .servicios-list li {
+      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.75); font-size: 14px; font-weight: 500;
+      display: flex; align-items: center; gap: 12px; cursor: default;
+      transition: color 0.2s;
+    }
+    .servicios-list li:hover { color: white; }
+    .servicios-list li::before { content: '→'; color: var(--acento); font-weight: 700; }
+    .servicios-list li:last-child { border-bottom: none; }
+    .hero-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--azul-claro); color: white;
+      padding: 16px 20px; border-radius: 2px;
+      font-size: 12px; font-weight: 700; text-align: center;
+    }
+    .hero-badge strong { display: block; font-size: 22px; font-weight: 800; }
+
+    /* ── FRANJA CLIENTES ── */
+    .franja {
+      background: white; border-bottom: 1px solid #e8ecf0;
+      padding: 28px 60px;
+      display: flex; align-items: center; gap: 48px;
+    }
+    .franja-label { color: var(--gris); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; white-space: nowrap; }
+    .franja-sep { width: 1px; height: 40px; background: #e2e8f0; flex-shrink: 0; }
+    .franja-clientes { display: flex; gap: 48px; flex-wrap: wrap; align-items: center; }
+    .franja-cliente { font-size: 13px; font-weight: 600; color: #94a3b8; transition: color 0.2s; white-space: nowrap; }
+    .franja-cliente:hover { color: var(--azul); }
+
+    /* ── SECCIÓN BASE ── */
+    .section { padding: 100px 60px; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      color: var(--azul-claro); font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .section-tag::before { content: ''; width: 32px; height: 2px; background: var(--azul-claro); }
+    h2 {
+      font-size: clamp(28px, 3.5vw, 46px); font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 20px;
+    }
+    .section-sub { color: var(--gris); font-size: 16px; line-height: 1.8; font-weight: 300; max-width: 580px; margin-bottom: 60px; }
+
+    /* ── SERVICIOS ── */
+    .bg-gris { background: var(--gris-claro); }
+    .servicios-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+      background: #dde2e8;
+    }
+    .servicio-item {
+      background: white; padding: 44px 36px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .servicio-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--azul-claro);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .servicio-item:hover { background: var(--azul); }
+    .servicio-item:hover::after { transform: scaleX(1); }
+    .servicio-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      color: var(--azul-claro); margin-bottom: 20px; display: block;
+      transition: color 0.3s;
+    }
+    .servicio-item:hover .servicio-num { color: rgba(255,255,255,0.5); }
+    .servicio-item h3 {
+      font-size: 17px; font-weight: 700; margin-bottom: 14px;
+      transition: color 0.3s;
+    }
+    .servicio-item:hover h3 { color: white; }
+    .servicio-item p {
+      font-size: 14px; color: var(--gris); line-height: 1.7;
+      transition: color 0.3s;
+    }
+    .servicio-item:hover p { color: rgba(255,255,255,0.7); }
+    .servicio-arrow {
+      margin-top: 24px; color: var(--azul-claro); font-size: 20px;
+      font-weight: 700; display: block; transition: all 0.3s;
+    }
+    .servicio-item:hover .servicio-arrow { color: white; transform: translateX(6px); }
+
+    /* ── NOSOTROS ── */
+    .nosotros-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .nosotros-img {
+      background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
+      border-radius: 2px; min-height: 500px; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .nosotros-img::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M0 0h20v20H0V0zm20 20h20v20H20V20z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .nosotros-icon { font-size: 80px; position: relative; z-index: 1; opacity: 0.6; }
+    .nosotros-nums {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+    }
+    .n-num { padding: 24px; border-right: 1px solid rgba(255,255,255,0.1); }
+    .n-num:last-child { border-right: none; }
+    .n-num strong { display: block; font-size: 36px; font-weight: 800; color: white; }
+    .n-num span { font-size: 12px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+
+    .nosotros-props { margin-top: 36px; }
+    .prop { padding: 20px 0; border-bottom: 1px solid #e8ecf0; display: flex; gap: 20px; }
+    .prop:last-child { border-bottom: none; }
+    .prop-num { font-size: 11px; font-weight: 700; color: var(--azul-claro); letter-spacing: 1px; margin-top: 2px; min-width: 28px; }
+    .prop h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .prop p { font-size: 13px; color: var(--gris); line-height: 1.6; }
+
+    /* ── GALERÍA ── */
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 280px 280px;
+      gap: 3px;
+    }
+    .gal-item {
+      overflow: hidden; position: relative; cursor: pointer;
+      background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-claro));
+    }
+    .gal-item.tall { grid-row: span 2; }
+    .gal-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,91,170,0); transition: background 0.3s;
+      display: flex; align-items: flex-end; padding: 24px;
+    }
+    .gal-item:hover .gal-overlay { background: rgba(0,91,170,0.7); }
+    .gal-text { color: white; font-size: 14px; font-weight: 700; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
+    .gal-item:hover .gal-text { opacity: 1; transform: translateY(0); }
+    .gal-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+    }
+    .gal-placeholder span { font-size: 40px; opacity: 0.4; }
+    .gal-placeholder p { font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── REFERENCIAS ── */
+    .bg-oscuro { background: var(--gris-oscuro); }
+    .refs-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.06); }
+    .ref-item {
+      background: var(--gris-oscuro); padding: 32px 28px;
+      border: none; transition: background 0.3s; cursor: default;
+    }
+    .ref-item:hover { background: rgba(0,119,204,0.15); }
+    .ref-item p { color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600; line-height: 1.5; }
+    .ref-item:hover p { color: white; }
+
+    /* ── CONTACTO ── */
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+    .contacto-datos { }
+    .dato-item {
+      display: flex; gap: 20px; padding: 24px 0;
+      border-bottom: 1px solid #e8ecf0;
+    }
+    .dato-item:last-child { border-bottom: none; }
+    .dato-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--azul); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: white;
+    }
+    .dato-text strong { display: block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .dato-text span { font-size: 14px; color: var(--gris); }
+
+    .form-wrap {
+      background: white; border: 1px solid #e2e8f0; padding: 44px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+    }
+    .form-wrap h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+    .form-wrap p { color: var(--gris); font-size: 14px; margin-bottom: 32px; }
+    .fila2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--negro); margin-bottom: 8px; }
+    .fg input, .fg select, .fg textarea {
+      width: 100%; padding: 13px 16px;
+      border: 1.5px solid #e2e8f0; border-radius: 3px;
+      font-size: 14px; font-family: 'Montserrat', sans-serif;
+      outline: none; color: var(--negro); background: #fafbfc;
+      transition: border-color 0.2s;
+    }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--azul-claro); background: white; }
+    .fg textarea { resize: vertical; min-height: 110px; }
+    .btn-enviar {
+      width: 100%; padding: 15px; background: var(--azul);
+      color: white; border: none; border-radius: 3px;
+      font-size: 13px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      transition: all 0.25s; box-shadow: 0 4px 16px rgba(0,91,170,0.25);
+    }
+    .btn-enviar:hover { background: var(--azul-oscuro); transform: translateY(-1px); }
+    .form-ok { display: none; text-align: center; padding: 48px 20px; }
+    .form-ok .check { font-size: 52px; margin-bottom: 16px; }
+    .form-ok h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .form-ok p { color: var(--gris); font-size: 14px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--negro); }
+    .footer-top { max-width: 1200px; margin: 0 auto; padding: 70px 60px 50px; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; }
+    .footer-logo img { height: 38px; filter: brightness(0) invert(1); margin-bottom: 18px; }
+    .footer-logo p { color: rgba(255,255,255,0.35); font-size: 13px; line-height: 1.8; }
+    .footer-col h4 { color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+    .footer-col a { display: block; color: rgba(255,255,255,0.35); font-size: 13px; text-decoration: none; margin-bottom: 12px; transition: color 0.2s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      max-width: 1200px; margin: 0 auto; padding: 24px 60px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p { color: rgba(255,255,255,0.25); font-size: 12px; }
+    .footer-social { display: flex; gap: 12px; }
+    .footer-soc {
+      width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px; display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 14px; color: rgba(255,255,255,0.4);
+      transition: all 0.2s;
+    }
+    .footer-soc:hover { background: var(--azul); border-color: var(--azul); color: white; }
+
+    /* ── WHATSAPP ── */
+    .wa {
+      position: fixed; bottom: 30px; right: 30px; z-index: 999;
+      background: #25d366; width: 58px; height: 58px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 26px; color: white;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45); transition: all 0.3s;
+    }
+    .wa:hover { transform: scale(1.1); }
+    .wa-label {
+      position: fixed; bottom: 40px; right: 96px; z-index: 998;
+      background: white; border-radius: 4px; padding: 10px 16px;
+      font-size: 13px; font-weight: 600; color: var(--negro);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12); white-space: nowrap;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .wa:hover ~ .wa-label { opacity: 1; }
+
+    /* ── FADE IN ── */
+    .fi { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fi.vis { opacity: 1; transform: none; }
+    .fi-d1 { transition-delay: 0.1s; } .fi-d2 { transition-delay: 0.2s; } .fi-d3 { transition-delay: 0.3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero-content { grid-template-columns: 1fr; padding: 100px 20px 60px; }
+      .hero-card-wrap { display: none; }
+      .nosotros-grid { grid-template-columns: 1fr; }
+      .nosotros-img { min-height: 300px; }
+      .contacto-grid { grid-template-columns: 1fr; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .refs-grid { grid-template-columns: repeat(2,1fr); }
+      .galeria-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gal-item.tall { grid-row: span 1; }
+      .footer-top { grid-template-columns: 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; gap: 12px; padding: 20px; }
+      .franja { flex-direction: column; gap: 20px; padding: 20px; }
+      .section { padding: 70px 20px; }
+      .fila2 { grid-template-columns: 1fr; }
+      .form-wrap { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.jpg" alt="Briseo Limpieza" onerror="this.style.display='none';this.nextSibling.style.display='block'">
+    <span style="display:none">BRISEO</span>
+  </div>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#galeria">Galería</a>
+    <a href="#referencias">Referencias</a>
+    <a href="#contacto" class="nav-cta">Contacto</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-label">Tucumán, Argentina</div>
+      <h1>Servicios integrales de <em>higiene y mantenimiento</em> profesional</h1>
+      <p class="hero-desc">Combinamos personal capacitado, procesos estandarizados y productos certificados para garantizar ambientes saludables, seguros y con imagen corporativa impecable.</p>
+      <div class="hero-btns">
+        <a href="#contacto" class="btn-primary">Solicitar cotización</a>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
+      </div>
+      <div class="hero-numbers">
+        <div class="hero-num"><strong>8+</strong><span>Referencias verificadas</span></div>
+        <div class="hero-num"><strong>100%</strong><span>Cargas sociales y ART</span></div>
+        <div class="hero-num"><strong>SMT</strong><span>Base operativa</span></div>
+      </div>
+    </div>
+    <div class="hero-card-wrap">
+      <div class="hero-card">
+        <p class="hero-card-title">Alcance de servicios</p>
+        <ul class="servicios-list">
+          <li>Limpieza general de oficinas</li>
+          <li>Limpieza post obra e industrial</li>
+          <li>Ventanales y cristales en altura</li>
+          <li>Abrillantado y pulido de pisos</li>
+          <li>Desinfección profesional</li>
+          <li>Consorcios y edificios</li>
+        </ul>
+      </div>
+      <div class="hero-badge">
+        Visita técnica<strong>SIN CARGO</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="section bg-gris" id="servicios">
+  <div class="section-inner">
+    <div class="section-tag fi">Servicios</div>
+    <h2 class="fi fi-d1">Soluciones de higiene para <br>cada necesidad</h2>
+    <p class="section-sub fi fi-d2">Ofrecemos cobertura completa con metodologías documentadas y auditorías periódicas que garantizan resultados consistentes.</p>
+    <div class="servicios-grid">
+      <div class="servicio-item fi">
+        <span class="servicio-num">01</span>
+        <h3>Limpieza de oficinas</h3>
+        <p>Barrido, aspirado, desinfección de superficies, vaciado de papeleros y mantenimiento diario del espacio de trabajo.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+      <div class="servicio-item fi fi-d1">
+        <span class="servicio-num">02</span>
+        <h3>Post obra e industrial</h3>
+        <p>Retiro de residuos, limpieza profunda y desengrase con productos específicos para obra e industria.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+      <div class="servicio-item fi fi-d2">
+        <span class="servicio-num">03</span>
+        <h3>Ventanales y cristales</h3>
+        <p>Operaciones certificadas en altura con equipos y protocolos de seguridad para fachadas y vidrieras.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+      <div class="servicio-item fi">
+        <span class="servicio-num">04</span>
+        <h3>Abrillantado de pisos</h3>
+        <p>Pulido, abrillantado y sellado para prolongar la vida útil y mejorar la presentación de superficies.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+      <div class="servicio-item fi fi-d1">
+        <span class="servicio-num">05</span>
+        <h3>Desinfección profesional</h3>
+        <p>Protocolos con desinfectantes aprobados para áreas críticas y planes de intervención programados.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+      <div class="servicio-item fi fi-d2">
+        <span class="servicio-num">06</span>
+        <h3>Consorcios y edificios</h3>
+        <p>Limpieza de áreas comunes, mantenimiento de ascensores, garajes y gestión integral de residuos.</p>
+        <span class="servicio-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section class="section" id="nosotros">
+  <div class="section-inner">
+    <div class="nosotros-grid">
+      <div class="nosotros-img">
+        <div class="nosotros-icon">🏢</div>
+        <div class="nosotros-nums">
+          <div class="n-num"><strong>100%</strong><span>Cargas sociales</span></div>
+          <div class="n-num"><strong>ART</strong><span>y Seguro de vida</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-tag fi">Nuestra empresa</div>
+        <h2 class="fi fi-d1">Compromiso, calidad y <br>confiabilidad operativa</h2>
+        <p class="section-sub fi fi-d2" style="margin-bottom:0">Briseo Limpieza es una compañía orientada a brindar soluciones profesionales de higiene y mantenimiento con foco en eficiencia operativa, cumplimiento normativo y sostenibilidad.</p>
+        <div class="nosotros-props">
+          <div class="prop fi">
+            <span class="prop-num">01</span>
+            <div>
+              <h4>Excelencia operativa</h4>
+              <p>Procedimientos estandarizados y auditorías periódicas que garantizan resultados consistentes en cada intervención.</p>
+            </div>
+          </div>
+          <div class="prop fi fi-d1">
+            <span class="prop-num">02</span>
+            <div>
+              <h4>Capital humano profesional</h4>
+              <p>Selección rigurosa, formación continua y cumplimiento completo de ART, seguros y cargas sociales.</p>
+            </div>
+          </div>
+          <div class="prop fi fi-d2">
+            <span class="prop-num">03</span>
+            <div>
+              <h4>Compromiso ambiental</h4>
+              <p>Prácticas y productos que reducen el impacto ambiental sin comprometer la efectividad del servicio.</p>
+            </div>
+          </div>
+          <div class="prop fi fi-d3">
+            <span class="prop-num">04</span>
+            <div>
+              <h4>Flexibilidad contractual</h4>
+              <p>Nos adaptamos a operaciones de distinta escala con cotizaciones personalizadas para cada cliente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="section bg-gris" id="galeria" style="padding-bottom:0">
+  <div class="section-inner">
+    <div class="section-tag fi">Galería</div>
+    <h2 class="fi fi-d1">Nuestros trabajos</h2>
+    <p class="section-sub fi fi-d2">Cada espacio es un compromiso de calidad. Reemplazá los bloques con fotos reales de tus servicios.</p>
+  </div>
+  <div class="galeria-grid" style="margin-top:40px">
+    <div class="gal-item tall">
+      <div class="gal-placeholder"><span>📸</span><p>Foto principal</p></div>
+      <div class="gal-overlay"><span class="gal-text">Limpieza de oficinas</span></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-placeholder" style="background:linear-gradient(135deg,#0a3d6b,#005baa)"><span>🏗️</span><p>Post obra</p></div>
+      <div class="gal-overlay"><span class="gal-text">Post obra</span></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-placeholder" style="background:linear-gradient(135deg,#003d73,#0077cc)"><span>🪟</span><p>Cristales</p></div>
+      <div class="gal-overlay"><span class="gal-text">Cristales en altura</span></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-placeholder" style="background:linear-gradient(135deg,#001f4d,#003d73)"><span>✨</span><p>Pisos</p></div>
+      <div class="gal-overlay"><span class="gal-text">Abrillantado de pisos</span></div>
+    </div>
+    <div class="gal-item">
+      <div class="gal-placeholder" style="background:linear-gradient(135deg,#0d1117,#1e2530)"><span>🏛️</span><p>Edificios</p></div>
+      <div class="gal-overlay"><span class="gal-text">Consorcios</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCIAS -->
+<section class="section bg-oscuro" id="referencias">
+  <div class="section-inner">
+    <div class="section-tag fi" style="color:#38bdf8">
+      <span style="background:#38bdf8"></span>Referencias comerciales
+    </div>
+    <h2 class="fi fi-d1" style="color:white;margin-bottom:16px">Clientes que confían <br>en Briseo</h2>
+    <p class="section-sub fi fi-d2" style="color:rgba(255,255,255,0.4);margin-bottom:48px">Organizaciones líderes de Tucumán que eligen nuestros servicios.</p>
+    <div class="refs-grid">
+      <div class="ref-item fi"><p>Obra Social del Personal de Prensa de Tucumán</p></div>
+      <div class="ref-item fi fi-d1"><p>Asociación Mutual APLA</p></div>
+      <div class="ref-item fi fi-d2"><p>IGW Argentina</p></div>
+      <div class="ref-item fi fi-d3"><p>CDR Tucumán</p></div>
+      <div class="ref-item fi"><p>Fundación Argeninta</p></div>
+      <div class="ref-item fi fi-d1"><p>Femina Centro Médico</p></div>
+      <div class="ref-item fi fi-d2"><p>Hierro Nort SRL</p></div>
+      <div class="ref-item fi fi-d3"><p>IDEP Tucumán</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="section" id="contacto">
+  <div class="section-inner">
+    <div class="contacto-grid">
+      <div>
+        <div class="section-tag fi">Contacto</div>
+        <h2 class="fi fi-d1">Solicitá una visita <br>técnica sin cargo</h2>
+        <p class="section-sub fi fi-d2" style="margin-bottom:36px">Contratá hoy y obtené un mes de auditoría de calidad sin cargo. Coordine una demostración operativa en sus instalaciones.</p>
+        <div class="contacto-datos">
+          <div class="dato-item fi">
+            <div class="dato-icon">📞</div>
+            <div class="dato-text">
+              <strong>Teléfono</strong>
+              <span>381 678 2465</span>
+            </div>
+          </div>
+          <div class="dato-item fi fi-d1">
+            <div class="dato-icon">📱</div>
+            <div class="dato-text">
+              <strong>Teléfono</strong>
+              <span>381 468 0945</span>
+            </div>
+          </div>
+          <div class="dato-item fi fi-d2">
+            <div class="dato-icon">✉️</div>
+            <div class="dato-text">
+              <strong>Email</strong>
+              <span>Briseotucuman@gmail.com</span>
+            </div>
+          </div>
+          <div class="dato-item fi fi-d3">
+            <div class="dato-icon">📍</div>
+            <div class="dato-text">
+              <strong>Ubicación</strong>
+              <span>San Miguel de Tucumán, Argentina · CUIT 33-71697052-9</span>
+            </div>
+          </div>
+          <div class="dato-item fi">
+            <div class="dato-icon">📸</div>
+            <div class="dato-text">
+              <strong>Instagram</strong>
+              <span>@Briseotucuman</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-wrap fi fi-d1">
+        <h3>Solicitar cotización</h3>
+        <p>Te respondemos dentro de las 24 horas hábiles.</p>
+        <form id="cf" onsubmit="enviar(event)">
+          <div class="fila2">
+            <div class="fg"><label>Nombre *</label><input type="text" required placeholder="Tu nombre completo" /></div>
+            <div class="fg"><label>Empresa</label><input type="text" placeholder="Nombre de la empresa" /></div>
+          </div>
+          <div class="fila2">
+            <div class="fg"><label>Teléfono *</label><input type="tel" required placeholder="381 000 0000" /></div>
+            <div class="fg"><label>Email</label><input type="email" placeholder="tu@email.com" /></div>
+          </div>
+          <div class="fg">
+            <label>Servicio de interés</label>
+            <select>
+              <option value="">Seleccionar servicio</option>
+              <option>Limpieza de oficinas</option>
+              <option>Post obra e industrial</option>
+              <option>Ventanales y cristales en altura</option>
+              <option>Abrillantado y pulido de pisos</option>
+              <option>Desinfección profesional</option>
+              <option>Consorcios y edificios</option>
+              <option>Otro servicio</option>
+            </select>
+          </div>
+          <div class="fg"><label>Mensaje</label><textarea placeholder="Contanos sobre tu espacio, superficie aproximada y frecuencia deseada..."></textarea></div>
+          <button type="submit" class="btn-enviar">Enviar solicitud →</button>
+        </form>
+        <div class="form-ok" id="fok">
+          <div class="check">✅</div>
+          <h3>¡Solicitud recibida!</h3>
+          <p>Te contactamos dentro de las 24 horas hábiles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">
+      <img src="logo.jpg" alt="Briseo Limpieza" onerror="this.style.opacity='0'">
+      <p>Empresa especializada en servicios integrales de higiene, desinfección y mantenimiento. San Miguel de Tucumán, Argentina.</p>
+      <p style="margin-top:12px;color:rgba(255,255,255,0.2);font-size:12px">CUIT: 33-71697052-9</p>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <a href="#servicios">Limpieza de oficinas</a>
+      <a href="#servicios">Post obra e industrial</a>
+      <a href="#servicios">Ventanales y cristales</a>
+      <a href="#servicios">Abrillantado de pisos</a>
+      <a href="#servicios">Desinfección profesional</a>
+      <a href="#servicios">Consorcios y edificios</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="tel:3816782465">381 678 2465</a>
+      <a href="tel:3814680945">381 468 0945</a>
+      <a href="mailto:Briseotucuman@gmail.com">Briseotucuman@gmail.com</a>
+      <a href="https://instagram.com/briseotucuman" target="_blank">@Briseotucuman</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Briseo Limpieza. Todos los derechos reservados.</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/briseotucuman" target="_blank" class="footer-soc">📸</a>
+      <a href="https://wa.me/5493816782465" target="_blank" class="footer-soc">💬</a>
+      <a href="mailto:Briseotucuman@gmail.com" class="footer-soc">✉️</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5493816782465?text=Hola%20Briseo%2C%20me%20interesa%20una%20cotización" target="_blank" class="wa">💬</a>
+<div class="wa-label">Escribinos por WhatsApp</div>
+
+<script>
+  // Scroll animations
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis') })
+  }, { threshold: 0.1 })
+  document.querySelectorAll('.fi').forEach(el => io.observe(el))
+
+  // Form
+  function enviar(e) {
+    e.preventDefault()
+    document.getElementById('cf').style.display = 'none'
+    document.getElementById('fok').style.display = 'block'
+  }
+
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 60 ? 'rgba(13,17,23,0.98)' : 'rgba(13,17,23,0.96)'
+  })
+</script>
+</body>
+</html>
