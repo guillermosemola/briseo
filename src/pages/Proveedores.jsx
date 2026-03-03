@@ -171,7 +171,10 @@ function Proveedores() {
                   <td style={s.tablaCell}>{p.email || '—'}</td>
                   <td style={s.tablaCell}>{p.localidad || '—'}</td>
                   <td style={s.tablaCell}>
-                    <button style={s.btnPeligro} onClick={() => darDeBaja(p.id)}>Dar de baja</button>
+                    <div style={{ display:'flex', gap:'6px' }}>
+                      <button style={{ ...s.btnPrimario(c.main), padding:'5px 12px', fontSize:'12px' }} onClick={() => abrirEdicion(p)}>✏️ Editar</button>
+                      <button style={s.btnPeligro} onClick={() => darDeBaja(p.id)}>Baja</button>
+                    </div>
                   </td>
                 </tr>
               ))}
