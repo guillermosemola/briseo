@@ -51,9 +51,11 @@ function Agenda() {
 
   async function guardarOrden(e) {
     e.preventDefault()
-    const { data: orden, error } = await supabase.from('ordenes_trabajo').insert([{
-      ...form,
-      sucursal_id: form.sucursal_id || null,
+    cconst { data: orden, error } = await supabase.from('ordenes_trabajo').insert([{
+  ...form,
+  sucursal_id: form.sucursal_id || null,
+  hora_inicio: form.hora_inicio || null,
+  hora_fin_estimada: form.hora_fin_estimada || null,
       numero_orden: 'OT-' + new Date().getFullYear() + '-' + (Math.floor(Math.random() * 9000) + 1000)
     }]).select().single()
     if (error) { alert('Error: ' + error.message); return }
