@@ -9,6 +9,7 @@ function Proveedores() {
   const [loading, setLoading] = useState(true)
   const [mostrarForm, setMostrarForm] = useState(false)
   const [busqueda, setBusqueda] = useState('')
+  const [editando, setEditando] = useState(null)
   const [form, setForm] = useState({
     razon_social: '', cuit: '', nombre_contacto: '', email: '',
     telefono: '', direccion: '', localidad: '', rubro: '', observaciones: ''
@@ -23,11 +24,34 @@ function Proveedores() {
     setLoading(false)
   }
 
+  function abrirEdicion(p) {
+    setEditando(p)
+    setForm({
+      razon_social: p.razon_social || '',
+      cuit: p.cuit || '',
+      nombre_contacto: p.nombre_contacto || '',
+      email: p.email || '',
+      telefono: p.telefono || '',
+      direccion: p.direccion || '',
+      localidad: p.localidad || '',
+      rubro: p.rubro || '',
+      observaciones: p.observaciones || ''
+    })
+    setMostrarForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   async function guardarProveedor(e) {
     e.preventDefault()
-    const { error } = await supabase.from('proveedores').insert([{ ...form }])
-    if (error) { alert('Error: ' + error.message); return }
+    if (editando) {
+      const { error } = await supabase.from('proveedores').update(form).eq('id', editando.id)
+      if (error) { alert('Error: ' + error.message); return }
+    } else {
+      const { error } = await supabase.from('proveedores').insert([{ ...form }])
+      if (error) { alert('Error: ' + error.message); return }
+    }
     setMostrarForm(false)
+    setEditando(null)
     setForm({ razon_social:'', cuit:'', nombre_contacto:'', email:'', telefono:'', direccion:'', localidad:'', rubro:'', observaciones:'' })
     cargarProveedores()
   }
@@ -51,14 +75,14 @@ function Proveedores() {
           <h3 style={s.cabeceraTexto}>🏭 Proveedores</h3>
           <p style={s.cabeceraSubtexto}>{proveedores.length} proveedores activos</p>
         </div>
-        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => setMostrarForm(!mostrarForm)}>
+        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => { setMostrarForm(!mostrarForm); setEditando(null); setForm({ razon_social:'', cuit:'', nombre_contacto:'', email:'', telefono:'', direccion:'', localidad:'', rubro:'', observaciones:'' }) }}>
           {mostrarForm ? '✕ Cancelar' : '+ Nuevo proveedor'}
         </button>
       </div>
 
       {mostrarForm && (
         <div style={s.card}>
-          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>Nuevo proveedor</h4>
+          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>{editando ? `✏️ Editando — ${editando.razon_social}` : 'Nuevo proveedor'}</h4>
           <form onSubmit={guardarProveedor}>
             <div style={s.grid2}>
               <div>
@@ -111,8 +135,8 @@ function Proveedores() {
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-              <button type="button" style={s.btnSecundario} onClick={() => setMostrarForm(false)}>Cancelar</button>
-              <button type="submit" style={s.btnPrimario(c.main)}>Guardar proveedor</button>
+              <button type="button" style={s.btnSecundario} onClick={() => { setMostrarForm(false); setEditando(null) }}>Cancelar</button>
+              <button type="submit" style={s.btnPrimario(c.main)}>{editando ? '💾 Guardar cambios' : '+ Crear proveedor'}</button>
             </div>
           </form>
         </div>
