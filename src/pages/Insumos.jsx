@@ -12,6 +12,7 @@ function Insumos() {
   const [vista, setVista] = useState('insumos')
   const [mostrarForm, setMostrarForm] = useState(false)
   const [mostrarMovimiento, setMostrarMovimiento] = useState(null)
+  const [editando, setEditando] = useState(null)
   const [busqueda, setBusqueda] = useState('')
   const [form, setForm] = useState({ nombre:'', descripcion:'', unidad_medida:'unidad', categoria:'', stock_actual:'0', stock_minimo:'0', precio_costo:'', proveedor_id:'' })
   const [formMov, setFormMov] = useState({ tipo_movimiento:'entrada', cantidad:'', motivo:'compra', precio_unitario:'', observaciones:'' })
@@ -31,12 +32,52 @@ function Insumos() {
     setLoading(false)
   }
 
+  function abrirEdicion(ins) {
+    setEditando(ins)
+    setForm({
+      nombre: ins.nombre || '',
+      descripcion: ins.descripcion || '',
+      unidad_medida: ins.unidad_medida || 'unidad',
+      categoria: ins.categoria || '',
+      stock_actual: ins.stock_actual || '0',
+      stock_minimo: ins.stock_minimo || '0',
+      precio_costo: ins.precio_costo || '',
+      proveedor_id: ins.proveedor_id || ''
+    })
+    setMostrarForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cancelar() {
+    setMostrarForm(false)
+    setEditando(null)
+    setForm({ nombre:'', descripcion:'', unidad_medida:'unidad', categoria:'', stock_actual:'0', stock_minimo:'0', precio_costo:'', proveedor_id:'' })
+  }
+
   async function guardarInsumo(e) {
     e.preventDefault()
-    const { error } = await supabase.from('insumos').insert([{ ...form, stock_actual: parseFloat(form.stock_actual)||0, stock_minimo: parseFloat(form.stock_minimo)||0, precio_costo: form.precio_costo ? parseFloat(form.precio_costo) : null, proveedor_id: form.proveedor_id || null }])
+    const datos = {
+      ...form,
+      stock_actual: parseFloat(form.stock_actual) || 0,
+      stock_minimo: parseFloat(form.stock_minimo) || 0,
+      precio_costo: form.precio_costo ? parseFloat(form.precio_costo) : null,
+      proveedor_id: form.proveedor_id || null
+    }
+    if (editando) {
+      const { error } = await supabase.from('insumos').update(datos).eq('id', editando.id)
+      if (error) { alert('Error: ' + error.message); return }
+    } else {
+      const { error } = await supabase.from('insumos').insert([datos])
+      if (error) { alert('Error: ' + error.message); return }
+    }
+    cancelar()
+    cargarDatos()
+  }
+
+  async function eliminarInsumo(id) {
+    if (!confirm('¿Eliminar este insumo? Esta acción no se puede deshacer.')) return
+    const { error } = await supabase.from('insumos').update({ activo: false }).eq('id', id)
     if (error) { alert('Error: ' + error.message); return }
-    setMostrarForm(false)
-    setForm({ nombre:'', descripcion:'', unidad_medida:'unidad', categoria:'', stock_actual:'0', stock_minimo:'0', precio_costo:'', proveedor_id:'' })
     cargarDatos()
   }
 
@@ -65,7 +106,7 @@ function Insumos() {
           <h3 style={s.cabeceraTexto}>🧴 Insumos y Stock</h3>
           <p style={s.cabeceraSubtexto}>{insumos.length} insumos registrados</p>
         </div>
-        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => setMostrarForm(!mostrarForm)}>
+        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => { if (mostrarForm) { cancelar() } else { setMostrarForm(true) } }}>
           {mostrarForm ? '✕ Cancelar' : '+ Nuevo insumo'}
         </button>
       </div>
@@ -84,20 +125,22 @@ function Insumos() {
 
       {mostrarForm && (
         <div style={s.card}>
-          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>Nuevo insumo</h4>
+          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>
+            {editando ? `✏️ Editando — ${editando.nombre}` : 'Nuevo insumo'}
+          </h4>
           <form onSubmit={guardarInsumo}>
             <div style={s.grid2}>
               <div><label style={s.label}>Nombre</label><input style={s.input} value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} required onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
               <div><label style={s.label}>Categoría</label><input style={s.input} value={form.categoria} onChange={e => setForm({...form, categoria: e.target.value})} onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
               <div><label style={s.label}>Unidad de medida</label><select style={s.input} value={form.unidad_medida} onChange={e => setForm({...form, unidad_medida: e.target.value})}><option value="unidad">Unidad</option><option value="litro">Litro</option><option value="kg">Kilogramo</option><option value="rollo">Rollo</option><option value="caja">Caja</option></select></div>
               <div><label style={s.label}>Proveedor</label><select style={s.input} value={form.proveedor_id} onChange={e => setForm({...form, proveedor_id: e.target.value})}><option value="">Sin proveedor</option>{proveedores.map(p => <option key={p.id} value={p.id}>{p.razon_social}</option>)}</select></div>
-              <div><label style={s.label}>Stock inicial</label><input type="number" style={s.input} value={form.stock_actual} onChange={e => setForm({...form, stock_actual: e.target.value})} onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
+              <div><label style={s.label}>Stock actual</label><input type="number" style={s.input} value={form.stock_actual} onChange={e => setForm({...form, stock_actual: e.target.value})} onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
               <div><label style={s.label}>Stock mínimo</label><input type="number" style={s.input} value={form.stock_minimo} onChange={e => setForm({...form, stock_minimo: e.target.value})} onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
               <div><label style={s.label}>Precio de costo ($)</label><input type="number" style={s.input} value={form.precio_costo} onChange={e => setForm({...form, precio_costo: e.target.value})} onFocus={e => e.target.style.borderColor = c.main} onBlur={e => e.target.style.borderColor = '#e2e8f0'} /></div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-              <button type="button" style={s.btnSecundario} onClick={() => setMostrarForm(false)}>Cancelar</button>
-              <button type="submit" style={s.btnPrimario(c.main)}>Guardar insumo</button>
+              <button type="button" style={s.btnSecundario} onClick={cancelar}>Cancelar</button>
+              <button type="submit" style={s.btnPrimario(c.main)}>{editando ? '💾 Guardar cambios' : 'Guardar insumo'}</button>
             </div>
           </form>
         </div>
@@ -145,7 +188,13 @@ function Insumos() {
                       <td style={s.tablaCell}>{ins.stock_minimo} {ins.unidad_medida}</td>
                       <td style={s.tablaCell}>{ins.precio_costo ? Number(ins.precio_costo).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' }) : '—'}</td>
                       <td style={s.tablaCell}>{ins.proveedores?.razon_social || '—'}</td>
-                      <td style={s.tablaCell}><button style={s.btnPrimario(c.main)} onClick={() => setMostrarMovimiento(ins)} >+ Movimiento</button></td>
+                      <td style={s.tablaCell}>
+                        <div style={{ display: 'flex', gap: '6px' }}>
+                          <button style={{ ...s.btnPrimario(c.main), padding: '5px 10px', fontSize: '12px' }} onClick={() => setMostrarMovimiento(ins)}>+ Mov.</button>
+                          <button style={{ ...s.btnPrimario('#0077cc'), padding: '5px 10px', fontSize: '12px' }} onClick={() => abrirEdicion(ins)}>✏️</button>
+                          <button style={s.btnPeligro} onClick={() => eliminarInsumo(ins.id)}>🗑️</button>
+                        </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
