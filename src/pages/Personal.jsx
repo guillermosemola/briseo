@@ -9,6 +9,7 @@ function Personal() {
   const [loading, setLoading] = useState(true)
   const [mostrarForm, setMostrarForm] = useState(false)
   const [busqueda, setBusqueda] = useState('')
+  const [editando, setEditando] = useState(null)
   const [form, setForm] = useState({
     nombre: '', apellido: '', dni: '', cuil: '',
     fecha_nacimiento: '', fecha_ingreso: '', puesto: '',
@@ -25,18 +26,51 @@ function Personal() {
     setLoading(false)
   }
 
+  function abrirEdicion(emp) {
+    setEditando(emp)
+    setForm({
+      nombre: emp.nombre || '',
+      apellido: emp.apellido || '',
+      dni: emp.dni || '',
+      cuil: emp.cuil || '',
+      fecha_nacimiento: emp.fecha_nacimiento || '',
+      fecha_ingreso: emp.fecha_ingreso || '',
+      puesto: emp.puesto || '',
+      salario_base: emp.salario_base || '',
+      costo_hora: emp.costo_hora || '',
+      email: emp.email || '',
+      telefono: emp.telefono || '',
+      direccion: emp.direccion || '',
+      tipo_contrato: emp.tipo_contrato || 'relacion_dependencia',
+      observaciones: emp.observaciones || ''
+    })
+    setMostrarForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cancelar() {
+    setMostrarForm(false)
+    setEditando(null)
+    setForm({ nombre: '', apellido: '', dni: '', cuil: '', fecha_nacimiento: '', fecha_ingreso: '', puesto: '', salario_base: '', costo_hora: '', email: '', telefono: '', direccion: '', tipo_contrato: 'relacion_dependencia', observaciones: '' })
+  }
+
   async function guardarEmpleado(e) {
     e.preventDefault()
-    const { error } = await supabase.from('empleados').insert([{
-  ...form,
-  fecha_nacimiento: form.fecha_nacimiento || null,
-  fecha_ingreso: form.fecha_ingreso || null,
-  salario_base: form.salario_base ? parseFloat(form.salario_base) : null,
-  costo_hora: form.costo_hora ? parseFloat(form.costo_hora) : null,
-}])
-    if (error) { alert('Error: ' + error.message); return }
-    setMostrarForm(false)
-    setForm({ nombre: '', apellido: '', dni: '', cuil: '', fecha_nacimiento: '', fecha_ingreso: '', puesto: '', salario_base: '', costo_hora: '', email: '', telefono: '', direccion: '', tipo_contrato: 'relacion_dependencia', observaciones: '' })
+    const datos = {
+      ...form,
+      fecha_nacimiento: form.fecha_nacimiento || null,
+      fecha_ingreso: form.fecha_ingreso || null,
+      salario_base: form.salario_base ? parseFloat(form.salario_base) : null,
+      costo_hora: form.costo_hora ? parseFloat(form.costo_hora) : null,
+    }
+    if (editando) {
+      const { error } = await supabase.from('empleados').update(datos).eq('id', editando.id)
+      if (error) { alert('Error: ' + error.message); return }
+    } else {
+      const { error } = await supabase.from('empleados').insert([datos])
+      if (error) { alert('Error: ' + error.message); return }
+    }
+    cancelar()
     cargarEmpleados()
   }
 
@@ -60,14 +94,16 @@ function Personal() {
           <h3 style={s.cabeceraTexto}>👷 Personal</h3>
           <p style={s.cabeceraSubtexto}>{empleados.length} empleados activos</p>
         </div>
-        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => setMostrarForm(!mostrarForm)}>
+        <button style={s.btnPrimario('rgba(255,255,255,0.25)')} onClick={() => { if (mostrarForm) { cancelar() } else { setMostrarForm(true) } }}>
           {mostrarForm ? '✕ Cancelar' : '+ Nuevo empleado'}
         </button>
       </div>
 
       {mostrarForm && (
         <div style={s.card}>
-          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>Nuevo empleado</h4>
+          <h4 style={{ margin: '0 0 20px', color: c.main, fontWeight: '700' }}>
+            {editando ? `✏️ Editando — ${editando.apellido}, ${editando.nombre}` : 'Nuevo empleado'}
+          </h4>
           <form onSubmit={guardarEmpleado}>
             <div style={s.grid2}>
               {[['Nombre','nombre','text',true],['Apellido','apellido','text',true],['DNI','dni','text',true],['CUIL','cuil','text',false]].map(([lbl,key,type,req]) => (
@@ -139,10 +175,26 @@ function Personal() {
                   onFocus={e => e.target.style.borderColor = c.main}
                   onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
               </div>
+              <div>
+                <label style={s.label}>Dirección</label>
+                <input style={s.input} value={form.direccion}
+                  onChange={e => setForm({ ...form, direccion: e.target.value })}
+                  onFocus={e => e.target.style.borderColor = c.main}
+                  onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
+              </div>
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={s.label}>Observaciones</label>
+                <textarea style={{ ...s.input, resize: 'vertical' }} rows={2} value={form.observaciones}
+                  onChange={e => setForm({ ...form, observaciones: e.target.value })}
+                  onFocus={e => e.target.style.borderColor = c.main}
+                  onBlur={e => e.target.style.borderColor = '#e2e8f0'} />
+              </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '20px' }}>
-              <button type="button" style={s.btnSecundario} onClick={() => setMostrarForm(false)}>Cancelar</button>
-              <button type="submit" style={s.btnPrimario(c.main)}>Guardar empleado</button>
+              <button type="button" style={s.btnSecundario} onClick={cancelar}>Cancelar</button>
+              <button type="submit" style={s.btnPrimario(c.main)}>
+                {editando ? '💾 Guardar cambios' : 'Guardar empleado'}
+              </button>
             </div>
           </form>
         </div>
@@ -182,7 +234,10 @@ function Personal() {
                   </td>
                   <td style={s.tablaCell}>{e.telefono || '—'}</td>
                   <td style={s.tablaCell}>
-                    <button style={s.btnPeligro} onClick={() => darDeBaja(e.id)}>Dar de baja</button>
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <button style={{ ...s.btnPrimario(c.main), padding: '5px 12px', fontSize: '12px' }} onClick={() => abrirEdicion(e)}>✏️ Editar</button>
+                      <button style={s.btnPeligro} onClick={() => darDeBaja(e.id)}>Baja</button>
+                    </div>
                   </td>
                 </tr>
               ))}
