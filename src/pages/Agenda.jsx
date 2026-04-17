@@ -51,7 +51,7 @@ function Agenda() {
 
   async function guardarOrden(e) {
     e.preventDefault()
-    cconst { data: orden, error } = await supabase.from('ordenes_trabajo').insert([{
+    const { data: orden, error } = await supabase.from('ordenes_trabajo').insert([{
   ...form,
   sucursal_id: form.sucursal_id || null,
   hora_inicio: form.hora_inicio || null,
