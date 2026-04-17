@@ -54,8 +54,6 @@ function Personal() {
     setForm({ nombre: '', apellido: '', dni: '', cuil: '', fecha_nacimiento: '', fecha_ingreso: '', puesto: '', salario_base: '', costo_hora: '', email: '', telefono: '', direccion: '', tipo_contrato: 'relacion_dependencia', observaciones: '' })
   }
 
-  const [editando, setEditando] = useState(null)
-
   function abrirEdicion(emp) {
     setEditando(emp)
     setForm({
