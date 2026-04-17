@@ -104,7 +104,32 @@ function Facturacion()  {
     cargarDatos()
   }
 
-  async function guardarFactura(e) {
+  const [editando, setEditando] = useState(null)
+
+  function abrirEdicion(f) {
+    setEditando(f)
+    setForm({
+      contrato_id: f.contrato_id || '',
+      periodo_desde: f.periodo_desde || '',
+      periodo_hasta: f.periodo_hasta || '',
+      fecha_vencimiento: f.fecha_vencimiento || '',
+      subtotal: f.subtotal || '',
+      impuestos: f.impuestos || '0',
+      observaciones: f.observaciones || '',
+      estado: f.estado || 'emitida'
+    })
+    setMostrarForm(true)
+    setMostrarGenerador(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cancelar() {
+    setMostrarForm(false)
+    setEditando(null)
+    setForm({ contrato_id: '', periodo_desde: '', periodo_hasta: '', fecha_vencimiento: '', subtotal: '', impuestos: '0', observaciones: '', estado: 'emitida' })
+  }
+
+    async function guardarFactura(e) {
     e.preventDefault()
     const subtotal = parseFloat(form.subtotal)
     const impuestos = parseFloat(form.impuestos) || 0
