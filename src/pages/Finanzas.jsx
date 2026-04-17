@@ -66,7 +66,34 @@ function Finanzas() {
     setForm({ fecha: new Date().toISOString().split('T')[0], tipo: 'ingreso', categoria: '', descripcion: '', monto: '', cuenta_id: '', comprobante: '', forma_pago: 'Efectivo', factura_id: '' })
   }
 
-  async function guardarMovimiento(e) {
+  const [editando, setEditando] = useState(null)
+
+  const CATEGORIAS = { ingreso: ['Cobranzas', 'Otro ingreso'], egreso: ['Insumos', 'Servicios', 'Haberes', 'Impuestos', 'Alquileres', 'Socios', 'Marketing', 'Otro egreso'] }
+  const FORMAS_PAGO = ['Efectivo', 'Transferencia', 'Cheque', 'Tarjeta', 'Otro']
+
+  function abrirEdicion(m) {
+    setEditando(m)
+    setForm({
+      fecha: m.fecha || new Date().toISOString().split('T')[0],
+      tipo: m.tipo || 'ingreso',
+      categoria: m.categoria || '',
+      descripcion: m.descripcion || '',
+      monto: m.monto || '',
+      cuenta_id: m.cuenta_id || '',
+      comprobante: m.comprobante || '',
+      forma_pago: m.forma_pago || 'Efectivo'
+    })
+    setMostrarForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  function cancelarFin() {
+    setMostrarForm(false)
+    setEditando(null)
+    setForm({ fecha: new Date().toISOString().split('T')[0], tipo: 'ingreso', categoria: '', descripcion: '', monto: '', cuenta_id: '', comprobante: '', forma_pago: 'Efectivo' })
+  }
+
+    async function guardarMovimiento(e) {
     e.preventDefault()
     const datos = {
       ...form,
