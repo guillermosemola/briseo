@@ -104,7 +104,6 @@ function Facturacion()  {
     cargarDatos()
   }
 
-  const [editando, setEditando] = useState(null)
 
   function abrirEdicion(f) {
     setEditando(f)
