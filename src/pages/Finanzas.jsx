@@ -66,7 +66,6 @@ function Finanzas() {
     setForm({ fecha: new Date().toISOString().split('T')[0], tipo: 'ingreso', categoria: '', descripcion: '', monto: '', cuenta_id: '', comprobante: '', forma_pago: 'Efectivo', factura_id: '' })
   }
 
-  const [editando, setEditando] = useState(null)
 
   const CATEGORIAS = { ingreso: ['Cobranzas', 'Otro ingreso'], egreso: ['Insumos', 'Servicios', 'Haberes', 'Impuestos', 'Alquileres', 'Socios', 'Marketing', 'Otro egreso'] }
   const FORMAS_PAGO = ['Efectivo', 'Transferencia', 'Cheque', 'Tarjeta', 'Otro']

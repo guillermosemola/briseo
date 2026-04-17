@@ -54,7 +54,6 @@ function Insumos() {
     setForm({ nombre:'', descripcion:'', unidad_medida:'unidad', categoria:'', stock_actual:'0', stock_minimo:'0', precio_costo:'', proveedor_id:'' })
   }
 
-  const [editando, setEditando] = useState(null)
 
   function abrirEdicion(ins) {
     setEditando(ins)
