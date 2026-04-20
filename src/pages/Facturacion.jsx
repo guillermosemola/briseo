@@ -63,7 +63,7 @@ function Facturacion()  {
   async function calcularResumenHoras() {
     setLoadingResumen(true)
     const desde = mesGenerador + '-01'
-    const hasta = mesGenerador + '-31'
+    const hasta = mesGenerador+'-'+new Date(+mesGenerador.split('-')[0], +mesGenerador.split('-')[1], 0).getDate()
     const resultados = []
     for (const ct of contratosHora) {
       const { data: ordenes } = await supabase.from('ordenes_trabajo').select('id, numero_orden, fecha_programada').eq('contrato_id', ct.id).eq('estado', 'completada').gte('fecha_programada', desde).lte('fecha_programada', hasta)
@@ -87,7 +87,7 @@ function Facturacion()  {
 
   async function generarFacturaDesdeHoras(resumen) {
     const desde = mesGenerador + '-01'
-    const hasta = mesGenerador + '-31'
+    const hasta = mesGenerador+'-'+new Date(+mesGenerador.split('-')[0], +mesGenerador.split('-')[1], 0).getDate()
     const detalle = resumen.ordenes.map(o => `${o.numero_orden} (${new Date(o.fecha_programada + 'T00:00:00').toLocaleDateString('es-AR')}): ${o.horas}hs`).join(' | ')
     const { error } = await supabase.from('facturas').insert([{
       numero_factura: 'FAC-' + new Date().getFullYear() + '-' + (Math.floor(Math.random() * 900) + 100),
@@ -463,3 +463,5 @@ function Facturacion()  {
 }
 
 export default Facturacion
+
+

@@ -113,13 +113,13 @@ function Reportes() {
       supabase.from('clientes').select('*', { count: 'exact', head: true }).eq('activo', true),
       supabase.from('contratos').select('*', { count: 'exact', head: true }).eq('estado', 'activo'),
       supabase.from('empleados').select('*', { count: 'exact', head: true }).eq('activo', true),
-      supabase.from('ordenes_trabajo').select('*', { count: 'exact', head: true }).gte('fecha_programada', mes+'-01').lte('fecha_programada', mes+'-31'),
-      supabase.from('movimientos_financieros').select('tipo,monto,categoria').gte('fecha', mes+'-01').lte('fecha', mes+'-31'),
+      supabase.from('ordenes_trabajo').select('*', { count: 'exact', head: true }).gte('fecha_programada', mes+'-01').lte('fecha_programada', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()),
+      supabase.from('movimientos_financieros').select('tipo,monto,categoria').gte('fecha', mes+'-01').lte('fecha', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()),
       supabase.from('facturas').select('total').in('estado', ['pendiente','parcial','vencida']),
-      supabase.from('insumos').select('id').eq('activo', true).filter('stock_actual','lte','stock_minimo'),
-      supabase.from('facturas').select(`total, estado, cliente_id, clientes(id, razon_social, nombre_contacto)`).in('estado',['pagada','parcial']).gte('fecha_emision', mes+'-01').lte('fecha_emision', mes+'-31'),
+      supabase.from('insumos').select('id, stock_actual, stock_minimo').eq('activo', true),
+      supabase.from('facturas').select(`total, estado, cliente_id, clientes(id, razon_social, nombre_contacto)`).in('estado',['pagada','parcial']).gte('fecha_emision', mes+'-01').lte('fecha_emision', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()),
       supabase.from('costos_fijos').select('monto').eq('activo', true).eq('mes', mes),
-      supabase.from('costos_variables').select('monto, cliente_id, clientes(id, razon_social, nombre_contacto)').gte('fecha', mes+'-01').lte('fecha', mes+'-31'),
+      supabase.from('costos_variables').select('monto, cliente_id, clientes(id, razon_social, nombre_contacto)').gte('fecha', mes+'-01').lte('fecha', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()),
     ])
 
     const ingresosDelMes = (movimientosMes||[]).filter(m=>m.tipo==='ingreso').reduce((a,m)=>a+Number(m.monto),0)
@@ -162,7 +162,7 @@ function Reportes() {
       }))
       .sort((a, b) => b.ingresos - a.ingresos)
 
-    setStats({ totalClientes:totalClientes||0, totalContratos:totalContratos||0, totalEmpleados:totalEmpleados||0, serviciosDelMes:serviciosDelMes||0, ingresosDelMes, egresosDelMes, facturasPendientes:(facturasPendientes||[]).length, montoFacturasPendientes, stockBajoMinimo:(insumosBajos||[]).length, totalCostosFijos, totalCostosVariables })
+    setStats({ totalClientes:totalClientes||0, totalContratos:totalContratos||0, totalEmpleados:totalEmpleados||0, serviciosDelMes:serviciosDelMes||0, ingresosDelMes, egresosDelMes, facturasPendientes:(facturasPendientes||[]).length, montoFacturasPendientes, stockBajoMinimo:(insumosBajos||[]).filter(i => Number(i.stock_actual) <= Number(i.stock_minimo)).length, totalCostosFijos, totalCostosVariables })
     setRentabilidadClientes(rentabilidad)
     setGastosPorCategoria(Object.entries(gastos).map(([categoria,monto])=>({categoria,monto})).sort((a,b)=>b.monto-a.monto))
     setLoading(false)
@@ -442,3 +442,6 @@ function Reportes() {
 }
 
 export default Reportes
+
+
+

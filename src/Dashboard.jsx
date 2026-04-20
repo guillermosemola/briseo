@@ -62,7 +62,7 @@ function Dashboard({ user }) {
       supabase.from('contratos').select('*', { count: 'exact', head: true }).eq('estado', 'activo'),
       supabase.from('empleados').select('*', { count: 'exact', head: true }).eq('activo', true),
       supabase.from('ordenes_trabajo').select('*', { count: 'exact', head: true }).eq('fecha_programada', hoy),
-      supabase.from('movimientos_financieros').select('monto').eq('tipo', 'ingreso').gte('fecha', mes+'-01').lte('fecha', mes+'-31'),
+      supabase.from('movimientos_financieros').select('monto').eq('tipo', 'ingreso').gte('fecha', mes+'-01').lte('fecha', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()),
       supabase.from('facturas').select('total').in('estado', ['pendiente','parcial','vencida']),
     ])
     setKpis({ clientes:clientes||0, contratos:contratos||0, empleados:empleados||0, serviciosHoy:serviciosHoy||0, ingresosMes:(ingresos||[]).reduce((a,m)=>a+Number(m.monto),0), facturasPendientes:(facturas||[]).reduce((a,f)=>a+Number(f.total),0) })
@@ -91,8 +91,8 @@ function Dashboard({ user }) {
     if (sinLiquidar.length > 0) nuevasAlertas.push({ tipo:'warning', icono:'💼', titulo:`${sinLiquidar.length} sueldo(s) sin liquidar`, detalle: sinLiquidar.map(e => e.apellido + ' ' + e.nombre).join(', '), modulo:'sueldos' })
 
     // Stock bajo mínimo
-    const { data: stockBajo } = await supabase.from('insumos').select('nombre, stock_actual, stock_minimo').eq('activo', true).filter('stock_actual','lte','stock_minimo')
-    if ((stockBajo||[]).length > 0) nuevasAlertas.push({ tipo:'warning', icono:'🧴', titulo:`${stockBajo.length} insumo(s) bajo stock mínimo`, detalle: stockBajo.map(i => i.nombre).join(', '), modulo:'insumos' })
+    const { data: stockBajo } = await supabase.from('insumos').select('nombre, stock_actual, stock_minimo').eq('activo', true)
+    const stockBajoFiltrado = (stockBajo||[]).filter(i => Number(i.stock_actual) <= Number(i.stock_minimo)); if (stockBajoFiltrado.length > 0) nuevasAlertas.push({ tipo:'warning', icono:'🧴', titulo:`${stockBajoFiltrado.length} insumo(s) bajo stock mínimo`, detalle: stockBajoFiltrado.map(i => i.nombre).join(', '), modulo:'insumos' })
 
     // Contratos por vencer en 30 días
     const { data: contVencer } = await supabase.from('contratos').select('numero_contrato, fecha_fin, clientes(razon_social,nombre_contacto)').eq('estado','activo').not('fecha_fin','is',null).lte('fecha_fin', en30dias.toISOString().split('T')[0]).gte('fecha_fin', hoy.toISOString().split('T')[0])
@@ -251,3 +251,8 @@ function Dashboard({ user }) {
 }
 
 export default Dashboard
+
+
+
+
+

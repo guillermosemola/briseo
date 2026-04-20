@@ -27,7 +27,7 @@ function Costos() {
     setLoading(true)
     const [{ data: fijos }, { data: variables }, { data: clis }, { data: conts }] = await Promise.all([
       supabase.from('costos_fijos').select('*').eq('activo', true).eq('mes', mes).order('creado_en', { ascending: false }),
-      supabase.from('costos_variables').select('*, clientes(razon_social,nombre_contacto), contratos(numero_contrato)').gte('fecha', mes + '-01').lte('fecha', mes + '-31').order('fecha', { ascending: false }),
+      supabase.from('costos_variables').select('*, clientes(razon_social,nombre_contacto), contratos(numero_contrato)').gte('fecha', mes + '-01').lte('fecha', mes+'-'+new Date(+mes.split('-')[0], +mes.split('-')[1], 0).getDate()).order('fecha', { ascending: false }),
       supabase.from('clientes').select('id, razon_social, nombre_contacto').eq('activo', true),
       supabase.from('contratos').select('id, numero_contrato, cliente_id, clientes(razon_social,nombre_contacto)').eq('estado', 'activo')
     ])
@@ -383,3 +383,5 @@ function Costos() {
 }
 
 export default Costos
+
+
